@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+
+# Define a function to handle the "component" command
+create_component() {
+    # Prompt the user for the component name
+    printf "Enter the component name: "
+    read component_name
+
+    # Ensure component name is provided
+    if [ -z "$component_name" ]; then
+        printf "Missing component name\n"
+        printf "Usage: component new <component_name>\n"
+        exit 1
+    fi
+
+    # Add new component with required files
+    local cap_component_name="$(printf "%s" "${component_name:0:1}" | tr '[:lower:]' '[:upper:]')${component_name:1}"
+    local component_dir="senti-ui/src/components/$component_name"
+
+    mkdir -p "$component_dir"
+    touch "$component_dir/$component_name.css"
+    touch "$component_dir/$cap_component_name.js"
+    touch "$component_dir/$cap_component_name.stories.js"
+
+    printf "Created new component: %s\n" "$cap_component_name"
+    exit 0
+}
+
+# Use the case statement to handle commands
+case $1 in
+    component)
+        create_component
+        ;;
+    *)
+        printf "Invalid command: %s\n" "$1"
+        printf "Usage: senti.sh component\n"
+        exit 1
+        ;;
+esac
