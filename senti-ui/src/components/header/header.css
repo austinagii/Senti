@@ -1,0 +1,16 @@
+.Header {
+    align-items: center;
+    justify-content: center;
+    padding: 0px 1em 0px 1em;
+    width: 100vw;
+    outline: black solid 1px;
+}
+
+.Header-Logo {
+    display: inline;
+}
+
+.Header-UserText {
+    display: inline;
+    float: right;
+}
