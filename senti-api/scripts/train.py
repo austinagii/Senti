@@ -1,9 +1,11 @@
 from collections.abc import Generator
+from os import path 
 
 import datasets
 import torch
 from torch.optim import SGD
 
+CHECKPOINTS_DIR = path.join(path.dirname(path.abspath(__file__)), '..', 'checkpoints')
 
 class Tokenizer:
     def __init__(self, dataset: datasets.Dataset):
@@ -42,7 +44,7 @@ def to_batches(
 if __name__ == '__main__':
     batch_size = 32
     n_classes = 6
-    stopping_criterion = 1e-3
+    stopping_criterion = 1e-1
 
     dataset = datasets.load_dataset("emotion")
     tokenizer = Tokenizer(dataset['train'])
@@ -77,6 +79,9 @@ if __name__ == '__main__':
         else:
             iterations_without_improvement += 1
         print(f"Epoch #{epoch} Avg train loss: {avg_loss:.3f} val loss: {val_loss:.3f} iterations without improvement: {iterations_without_improvement}")
+        break 
 
 
-    torch.save(model.state_dict(), 'sentiment_model.pth')
+    traced_model = torch.jit.trace(model, torch.randn((1, tokenizer.vocab_size)))
+    traced_model.save(path.join(CHECKPOINTS_DIR, 'model.pt'))
+    #torch.save(model.state_dict(), 'sentiment_model.pth')
