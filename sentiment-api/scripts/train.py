@@ -19,7 +19,7 @@ if __name__ == '__main__':
     model = Model(len(tokenizer.vocab), n_classes).to(dev)
     optimizer = SGD(model.parameters(), lr=0.01)
 
-    print("Model initalized, starting training...")
+    print(f"Model initalized, starting training on '{dev}'...")
     min_loss = float('inf')
     epoch = 0
     iterations_without_improvement = 0
