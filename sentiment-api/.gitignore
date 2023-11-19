@@ -14,3 +14,7 @@ sentiment-api/build/*
 # Ignore everything in the artifacts directory except the .gitkeep file
 artifacts/*  
 !artifacts/.gitkeep
+
+# Ignore everything in the build directory except the .gitkeep file
+build/*
+!build/.gitkeep
