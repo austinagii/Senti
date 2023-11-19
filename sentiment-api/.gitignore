@@ -1,0 +1,16 @@
+# Ignore any model files
+**/*.pt
+**/*.pth
+
+# Ignore pycache files  
+**/__pycache__/
+
+# Ignore everything in the build directory
+sentiment-api/build/*
+
+# Ignore scratch files.
+**/scratch*
+
+# Ignore everything in the artifacts directory except the .gitkeep file
+artifacts/*  
+!artifacts/.gitkeep

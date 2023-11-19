@@ -1,5 +1,0 @@
-/Users/kadeem/Spaces/Projects/Senti/senti-core/build/CMakeFiles/senti.dir
-/Users/kadeem/Spaces/Projects/Senti/senti-core/build/CMakeFiles/edit_cache.dir
-/Users/kadeem/Spaces/Projects/Senti/senti-core/build/CMakeFiles/rebuild_cache.dir
-/Users/kadeem/Spaces/Projects/Senti/senti-core/build/_deps/json-build/CMakeFiles/edit_cache.dir
-/Users/kadeem/Spaces/Projects/Senti/senti-core/build/_deps/json-build/CMakeFiles/rebuild_cache.dir
