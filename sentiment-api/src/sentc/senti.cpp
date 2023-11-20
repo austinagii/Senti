@@ -4,6 +4,8 @@
 #include <optional>
 
 #include <torch/script.h>
+#include <pybind11/pybind11.h>
+
 #include "preprocessing.hpp"
 
 
@@ -29,6 +31,7 @@ inline void init() {
  */
 std::string predictSentiment(std::string text) {
     init();
+    // std::cout << "Predicting sentiment...\n";
     auto tokens = TOKENIZER->tokenize(text);
     auto batch = senti::to_batch(tokens, TOKENIZER->get_vocab_size());
     auto logits = MODEL->forward(batch).toTensor();
@@ -59,9 +62,7 @@ std::string predictSentiment(std::string text) {
     return sentiment_str;
 }
 
-int main() {
-    std::string text = "I hate you";
-    std::string sentiment = predictSentiment(text);
-    std::cout << sentiment << std::endl;
-    return 0;
+PYBIND11_MODULE(senti, m) {
+    m.doc() = "Sentiment Analysis API";
+    m.def("predict_sentiment", &predictSentiment, "Predicts the sentiment of a given text");
 }

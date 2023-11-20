@@ -13,7 +13,8 @@ if __name__ == '__main__':
     batch_size = 32
     n_classes = 6
     stopping_criterion = 1e-3
-    dev = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+    # dev = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+    dev = torch.device("cpu")
     dataset = datasets.load_dataset("emotion")
     tokenizer = Tokenizer(dataset['train'])
     model = Model(len(tokenizer.vocab), n_classes).to(dev)
@@ -49,13 +50,14 @@ if __name__ == '__main__':
         else:
             iterations_without_improvement += 1
         print(f"Epoch #{epoch} Avg train loss: {avg_loss:.3f} val loss: {val_loss:.3f} iterations without improvement: {iterations_without_improvement}")
-    
+
     output_dir = path.join(path.dirname(path.abspath(__file__)), '..', 'artifacts')
     # Save the tokenizer state.
     with open(path.join(output_dir, 'tokenizer.json'), 'w') as f:
         json.dump(tokenizer.id_by_word, f)
 
     # Save the model.
-    r = torch.randn((1, tokenizer.vocab_size)).to(dev)
-    traced_model = torch.jit.trace(model, r)
-    traced_model.save(path.join(output_dir, 'model.pt'))
+    with torch.no_grad():
+        r = torch.randn((1, tokenizer.vocab_size)).to(dev)
+        traced_model = torch.jit.trace(model, r)
+        traced_model.save(path.join(output_dir, 'model.pt'))
