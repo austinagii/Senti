@@ -21,23 +21,13 @@ inline void init() {
         } catch (const c10::Error& e) {
             std::cerr << "error loading the model\n";
         }
-        std::cout << "Model loaded successfully!\n";
         TOKENIZER = senti::Tokenizer(TOKENIZER_PATH);
     }
 }
 
-/**
- * Predicts the sentiment of a given text.
- */
-std::string predictSentiment(std::string text) {
-    init();
-    // std::cout << "Predicting sentiment...\n";
-    auto tokens = TOKENIZER->tokenize(text);
-    auto batch = senti::to_batch(tokens, TOKENIZER->get_vocab_size());
-    auto logits = MODEL->forward(batch).toTensor();
-    auto sentiment_id = logits.argmax(1).item().toInt();
+std::string get_sentiment_from_id(unsigned char id) {
     std::string sentiment_str = "";
-    switch (sentiment_id) {
+    switch (id) {
         case 0:
             sentiment_str = "sadness";
             break;
@@ -59,10 +49,22 @@ std::string predictSentiment(std::string text) {
         default:
             break;
     }
-    return sentiment_str;
+    return sentiment_str;  
+}
+
+/**
+ * Predicts the sentiment of a given text.
+ */
+std::string predict_sentiment(std::string text) {
+    init();
+    auto tokens = TOKENIZER->tokenize(text);
+    auto batch = senti::to_batch(tokens, TOKENIZER->get_vocab_size());
+    auto logits = MODEL->forward(batch).toTensor();
+    auto sentiment_id = logits.argmax(1).item().toInt();
+    return get_sentiment_from_id(sentiment_id);
 }
 
 PYBIND11_MODULE(senti, m) {
     m.doc() = "Sentiment Analysis API";
-    m.def("predict_sentiment", &predictSentiment, "Predicts the sentiment of a given text");
+    m.def("predict_sentiment", &predict_sentiment, "Predicts the sentiment of a given text");
 }

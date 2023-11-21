@@ -351,17 +351,8 @@ PYBIND11_INSTALL:BOOL=OFF
 //Disable search for Python
 PYBIND11_NOPYTHON:BOOL=OFF
 
-//Python version to use for compiling modules
-PYBIND11_PYTHON_VERSION:STRING=
-
 //Build pybind11 test suite?
 PYBIND11_TEST:BOOL=OFF
-
-//Path to a program.
-PYTHON_EXECUTABLE:FILEPATH=/Users/kadeem/.pyenv/versions/3.10.9/envs/lab/bin/python
-
-//Path to a library.
-PYTHON_LIBRARY:FILEPATH=/Users/kadeem/.pyenv/versions/3.10.9/lib/libpython3.10.dylib
 
 //Path to a library.
 TORCH_LIBRARY:FILEPATH=/usr/local/lib/libtorch/lib/libtorch.dylib
@@ -399,11 +390,11 @@ senti_BINARY_DIR:STATIC=/Users/kadeem/Spaces/Projects/Senti/sentiment-api/build
 //Value Computed by CMake
 senti_IS_TOP_LEVEL:STATIC=ON
 
+//Dependencies for the target
+senti_LIB_DEPENDS:STATIC=general;/Users/kadeem/.pyenv/versions/3.10.9/lib/libpython3.10.dylib;general;torch;torch_library;/usr/local/lib/libtorch/lib/libc10.dylib;/usr/local/lib/libtorch/lib/libkineto.a;
+
 //Value Computed by CMake
 senti_SOURCE_DIR:STATIC=/Users/kadeem/Spaces/Projects/Senti/sentiment-api
-
-//Dependencies for the target
-senti_lib_LIB_DEPENDS:STATIC=general;torch;torch_library;/usr/local/lib/libtorch/lib/libc10.dylib;/usr/local/lib/libtorch/lib/libkineto.a;
 
 
 ########################
@@ -581,10 +572,8 @@ CMAKE_TAPI-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
-//Details about finding PYTHON
-FIND_PACKAGE_MESSAGE_DETAILS_PYTHON:INTERNAL=/Users/kadeem/.pyenv/versions/3.10.9/envs/lab/bin/python3.10.9
-//Details about finding PythonInterp
-FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/Users/kadeem/.pyenv/versions/3.10.9/envs/lab/bin/python][v3.10.9()]
+//Details about finding Python
+FIND_PACKAGE_MESSAGE_DETAILS_Python:INTERNAL=[/Users/kadeem/.pyenv/versions/3.10.9/envs/lab/bin/python3.10][/Users/kadeem/.pyenv/versions/3.10.9/include/python3.10][/Users/kadeem/.pyenv/versions/3.10.9/lib/libpython3.10.dylib][cfound components: Development Interpreter Development.Module Development.Embed ][v3.10.9()]
 //Details about finding Torch
 FIND_PACKAGE_MESSAGE_DETAILS_Torch:INTERNAL=[/usr/local/lib/libtorch/lib/libtorch.dylib][/usr/local/lib/libtorch/include;/usr/local/lib/libtorch/include/torch/csrc/api/include][v()]
 //ADVANCED property for variable: GIT_EXECUTABLE
@@ -595,22 +584,29 @@ HAS_FLTO:INTERNAL=1
 HAS_FLTO_THIN:INTERNAL=1
 NLOHMANN_JSON_CONFIG_INSTALL_DIR:INTERNAL=share/cmake/nlohmann_json
 PYBIND11_INCLUDE_DIR:INTERNAL=/Users/kadeem/Spaces/Projects/Senti/sentiment-api/build/_deps/pybind11-src/include
-//ADVANCED property for variable: PYTHON_EXECUTABLE
-PYTHON_EXECUTABLE-ADVANCED:INTERNAL=1
-PYTHON_INCLUDE_DIRS:INTERNAL=/Users/kadeem/.pyenv/versions/3.10.9/include/python3.10
+//Python debug status
 PYTHON_IS_DEBUG:INTERNAL=0
-PYTHON_LIBRARIES:INTERNAL=/Users/kadeem/.pyenv/versions/3.10.9/lib/libpython3.10.dylib
-//ADVANCED property for variable: PYTHON_LIBRARY
-PYTHON_LIBRARY-ADVANCED:INTERNAL=1
 PYTHON_MODULE_EXTENSION:INTERNAL=.cpython-310-darwin.so
-PYTHON_MODULE_PREFIX:INTERNAL=
-PYTHON_VERSION:INTERNAL=3.10.9
-PYTHON_VERSION_MAJOR:INTERNAL=3
-PYTHON_VERSION_MINOR:INTERNAL=10
-Python_ADDITIONAL_VERSIONS:INTERNAL=3.9;3.8;3.7;3.6;3.5;3.4
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/usr/local
-_Python:INTERNAL=PYTHON
+_Python:INTERNAL=Python
+//Compiler reason failure
+_Python_Compiler_REASON_FAILURE:INTERNAL=
+_Python_DEVELOPMENT_EMBED_SIGNATURE:INTERNAL=b91fc88918b5f980a0434c1372ca118f
+_Python_DEVELOPMENT_MODULE_SIGNATURE:INTERNAL=22a7d5bef5f7f43e440d1e1385f766c4
+//Development reason failure
+_Python_Development_REASON_FAILURE:INTERNAL=
+//Path to a program.
+_Python_EXECUTABLE:INTERNAL=/Users/kadeem/.pyenv/versions/3.10.9/envs/lab/bin/python3.10
+//Path to a file.
+_Python_INCLUDE_DIR:INTERNAL=/Users/kadeem/.pyenv/versions/3.10.9/include/python3.10
+//Python Properties
+_Python_INTERPRETER_PROPERTIES:INTERNAL=Python;3;10;9;64;;cpython-310-darwin;abi3;/Users/kadeem/.pyenv/versions/3.10.9/lib/python3.10;/Users/kadeem/.pyenv/versions/3.10.9/envs/lab/lib/python3.10;/Users/kadeem/.pyenv/versions/3.10.9/envs/lab/lib/python3.10/site-packages;/Users/kadeem/.pyenv/versions/3.10.9/envs/lab/lib/python3.10/site-packages
+_Python_INTERPRETER_SIGNATURE:INTERNAL=698b42f060077601fe6a2af39b7b723d
+//Path to a library.
+_Python_LIBRARY_RELEASE:INTERNAL=/Users/kadeem/.pyenv/versions/3.10.9/lib/libpython3.10.dylib
+//NumPy reason failure
+_Python_NumPy_REASON_FAILURE:INTERNAL=
 //True if pybind11 and all required components found on the system
 pybind11_FOUND:INTERNAL=TRUE
 //Directory where pybind11 headers are located
