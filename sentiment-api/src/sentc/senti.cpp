@@ -17,10 +17,12 @@ std::optional<senti::Tokenizer> TOKENIZER = std::nullopt;
 inline void init() {
     if (MODEL == std::nullopt || TOKENIZER == std::nullopt) {
         try {
-            MODEL = torch::jit::load(MODEL_PATH);
+            MODEL = torch::jit::load(MODEL_PATH, torch::kCPU);
         } catch (const c10::Error& e) {
             std::cerr << "error loading the model\n";
         }
+        MODEL->eval();
+        torch::NoGradGuard no_grad;
         TOKENIZER = senti::Tokenizer(TOKENIZER_PATH);
     }
 }

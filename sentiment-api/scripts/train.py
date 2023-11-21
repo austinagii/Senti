@@ -13,8 +13,8 @@ if __name__ == '__main__':
     batch_size = 32
     n_classes = 6
     stopping_criterion = 1e-3
-    # dev = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-    dev = torch.device("cpu")
+    dev = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+    # dev = torch.device("cpu")
     dataset = datasets.load_dataset("emotion")
     tokenizer = Tokenizer(dataset['train'])
     model = Model(len(tokenizer.vocab), n_classes).to(dev)
