@@ -1,5 +1,11 @@
 #!/usr/bin/env sh
 
+# Get the absolute path to this script.
+# Note: If you're running on mac like I am, then you'll need to install coreutils 
+CURRENT_DIR="$dirame($(realpath $0))" # which realpath is this? I don't think this is the default so the behavior may be wonky on diff systems
+export PTYHONPATH="$CURRENT_DIR/senti-api/src"
+exit 0
+
 # Define a function to handle the "component" command
 create_component() {
     # Prompt the user for the component name
@@ -26,10 +32,19 @@ create_component() {
     exit 0
 }
 
+start() {
+    echo "Starting up the APIs..."
+    export PYTHONPATH="
+    uvicorn sentiment-api.scripts.serve:app --reload
+}
+
 # Use the case statement to handle commands
 case $1 in
     component)
         create_component
+        ;;
+    start)
+        start
         ;;
     *)
         printf "Invalid command: %s\n" "$1"
@@ -37,3 +52,19 @@ case $1 in
         exit 1
         ;;
 esac
+#!/usr/bin/env zsh
+
+CHECK="\033[32m\u2713\033[0m"
+CROSS="\033[31m\u2717\033[0m"
+
+checkInstallation() {
+	if command -v $2 1>/dev/null 2>&1; then
+		printf "  $CHECK $1\n"
+	else
+		printf "  $CROSS $1\n"
+	fi
+}
+
+echo "Checking your installations:"
+checkInstallation Homebrew brew
+checkInstallation Realpath realpath  

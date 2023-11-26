@@ -1,4 +1,5 @@
 from collections.abc import Generator
+from typing import Iterable
 
 import datasets
 import torch
@@ -9,20 +10,28 @@ class Tokenizer:
         self.vocab_size = len(self.vocab)
         self.id_by_word = {word: id for id, word in enumerate(self.vocab)}
 
-    def tokenize(self, document: str) -> list[int]:
-        return [self.id_by_word[(word if word in self.vocab else 'UNK')] for word in document.split()]
-    
+    def tokenize(self, document: str | Iterable[str]) -> list[int]:
+        if isinstance(document, str):
+            get_id = lambda w: self.id_by_word[(w if w in self.vocab else 'UNK')]
+            return list(map(get_id, document.split()))
+        elif isinstance(document, Iterable):
+            return [self.tokenize(sentence) for sentence in document]
+        else:    
+            raise TypeError("Expected str or Iterable[str]")
 
-def to_batches(
-    batch_size: int,
-    dataset: datasets.Dataset,
-    tokenizer: Tokenizer) -> Generator[tuple[torch.Tensor, torch.Tensor], None, None]:
+def to_batches(dataset: datasets.Dataset, batch_size: int = 32) -> Generator[datasets.Dataset, None, None]:
     for i in range(0, len(dataset), batch_size):
         batch = dataset[i:i+batch_size]
         if len(batch['text']) < batch_size:
             continue
-        labels = torch.tensor(batch['label'], dtype=torch.long)
-        bows = torch.zeros((batch_size, tokenizer.vocab_size))
-        for j, document in enumerate(batch['text']):
-            bows[j, tokenizer.tokenize(document)] = 1
-        yield bows, labels
+        yield batch['text'], batch['label']
+
+def to_bow(encoded_documents: list[list[int]], vocab_size: int) -> torch.Tensor:
+    """Converts a list of encoded documents into a tensor.
+
+    The shape of the tensor is (num_documents, vocab_size).
+    """
+    bow = torch.zeros(len(encoded_documents), vocab_size)
+    for i, encoded_document in enumerate(encoded_documents):
+        bow[i, encoded_document] = 1 
+    return bow
