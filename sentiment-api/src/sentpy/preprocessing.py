@@ -10,7 +10,7 @@ class Tokenizer:
         self.vocab_size = len(self.vocab)
         self.id_by_word = {word: id for id, word in enumerate(self.vocab)}
 
-    def tokenize(self, document: str | Iterable[str]) -> list[int]:
+    def tokenize(self, document: str) -> list[int]:
         if isinstance(document, str):
             get_id = lambda w: self.id_by_word[(w if w in self.vocab else 'UNK')]
             return list(map(get_id, document.split()))

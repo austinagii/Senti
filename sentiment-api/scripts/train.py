@@ -11,11 +11,13 @@ from sentpy import utils
 
 
 if __name__ == '__main__':
+    # torch.set_num_threads(1)
     dataset = datasets.load_dataset("emotion")
     train_dataset, validation_dataset = dataset['train'], dataset['validation']
     tokenizer = Tokenizer(dataset['train'])
     n_classes = 6
-    device = utils.get_available_device()
+    # device = utils.get_available_device()
+    device = torch.device('cpu')
     model = Model(tokenizer.vocab_size, n_classes).to(device)
     optimizer = SGD(model.parameters(), lr=0.01)
 
