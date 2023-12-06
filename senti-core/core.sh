@@ -4,6 +4,7 @@ cd "$(dirname "$(readlink -f "$0")")"
 
 docker image build --no-cache -t senti-core .
 
+# TODO: Remove the double square brackets since those are bash only.
 if [[ $1 == "train" ]]; then 
     COMMAND="pipenv sync && pipenv run python ./scripts/train.py"
 fi
